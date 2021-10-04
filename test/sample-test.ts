@@ -49,7 +49,7 @@ describe("CoolToken", () => {
 
     it("fails to transfer with insufficient funds", async () => {
       await expect(token.transfer(accounts[0].address, 10)).to.be.revertedWith(
-        "no funds"
+        "underflow"
       );
     });
   });
