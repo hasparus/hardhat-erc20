@@ -13,7 +13,6 @@ struct Bid {
 
 // Participants auction for ETH using IERC20 tokens.
 contract Auction {
-  uint256 public immutable reward;
   address payable owner;
 
   IERC20 public token;
@@ -28,9 +27,12 @@ contract Auction {
     // msg.sender may not be EOA if we run new Auction() from another
     // contract, right?
     owner = payable(msg.sender);
-    reward = msg.value;
 
     token = _token;
+  }
+
+  function reward() public view returns (uint256) {
+    return address(this).balance;
   }
 
   function bid(address payable bidder, uint256 value) external {
@@ -55,6 +57,6 @@ contract Auction {
     // The winner pays their IERC20 tokens to the deployer
     token.transferFrom(latestBid.bidder, owner, latestBid.value);
     // and receives the reward
-    latestBid.bidder.transfer(reward);
+    selfdestruct(latestBid.bidder);
   }
 }
