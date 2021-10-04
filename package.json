@@ -17,6 +17,7 @@
     "ethers": "^5.4.7",
     "hardhat": "^2.6.4",
     "hardhat-gas-reporter": "^1.0.4",
+    "prettier-plugin-solidity": "^1.0.0-beta.18",
     "solidity-coverage": "^0.7.17",
     "ts-node": "^10.2.1",
     "typechain": "^5.1.2",

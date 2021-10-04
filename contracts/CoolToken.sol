@@ -40,7 +40,7 @@ contract CoolToken is IERC20 {
   // todo: should this be external?
 
   function transfer(address to, uint256 value) override external returns (bool) {
-    require(value <= balances[msg.sender]);
+    require(value <= balances[msg.sender], "no funds");
     balances[msg.sender] -= value;
     balances[to] += value;
 
