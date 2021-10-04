@@ -2,8 +2,7 @@
 pragma solidity ^0.8.4;
 
 import "hardhat/console.sol";
-
-import "./IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract CoolToken is IERC20 {
   uint256 public override totalSupply;
@@ -36,8 +35,6 @@ contract CoolToken is IERC20 {
     return balances[account];
   }
 
-  // todo: should this be external?
-
   function transfer(address to, uint256 value)
     external
     override
@@ -56,6 +53,10 @@ contract CoolToken is IERC20 {
     override
     returns (bool)
   {
+    // It would make sense to check if the balance isn't lower than allowance,
+    // but the interface doesn't require it, so we don't.
+    // // require(balances[msg.sender] >= amount, "Insufficient balance");
+
     allowance[msg.sender][spender] = amount;
 
     emit Approval(msg.sender, spender, amount);
@@ -70,7 +71,7 @@ contract CoolToken is IERC20 {
   ) external override returns (bool) {
     require(value <= allowance[from][msg.sender]);
 
-    balances[msg.sender] -= value;
+    balances[from] -= value;
     balances[to] += value;
 
     emit Transfer(msg.sender, to, value);
